@@ -5,24 +5,23 @@ import './App.css'
  
 function App() {
   const [solution, setSolution] = useState(null)
-  //const [solutions, setSolutions] = useState(null)
+  const [solutions, setSolutions] = useState(null)
 
   useEffect(() => {
-    fetch('https://corsanywhere.herokuapp.com/lqdlf.herokuapp.com/names/easy')
+    fetch('https://cors-anywhere.herokuapp.com/lqdlf.herokuapp.com/names/easy')
       .then(res => res.json())
       .then(json => {
         const solutions=json['result']
         const randomSolution=solutions[Math.floor(Math.random()*json['result'].length)]
         setSolution(randomSolution)
-        //setSolutions(solutions)
+        setSolutions(solutions)
       })
-      }, [setSolution])
-
-
+      }, [setSolution, setSolutions])
+    
   return (
     <div className="App">
       <h1>Footdle</h1>
-      {solution && <Wordle solution={solution} />}
+      {solution && <Wordle solution={solution} solutions={solutions}/>}
     </div>
   );
 }
