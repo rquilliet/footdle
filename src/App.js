@@ -1,22 +1,33 @@
 import { useEffect, useState } from 'react';
+
 import Wordle from './components/Wordle';
 import './App.css'
 
- 
-function App() {
+export default function App() {
   const [solution, setSolution] = useState(null)
   const [solutions, setSolutions] = useState(null)
 
   useEffect(() => {
-    fetch('https://cors-anywhere.herokuapp.com/lqdlf.herokuapp.com/names/easy')
+    fetch('https://lqdlf.herokuapp.com/names/')
       .then(res => res.json())
       .then(json => {
         const solutions=json['result']
-        const randomSolution=solutions[Math.floor(Math.random()*json['result'].length)]
-        setSolution(randomSolution)
         setSolutions(solutions)
       })
-      }, [setSolution, setSolutions])
+      },
+    [setSolutions]
+  )
+
+  useEffect(() => {
+    fetch('https://lqdlf.herokuapp.com/name/easy')
+      .then(res => res.json())
+      .then(json => {
+        const randomSolution=json['result']
+        setSolution(randomSolution)
+      })
+      },
+    [setSolution]
+  )
     
   return (
     <div className="App">
@@ -25,5 +36,3 @@ function App() {
     </div>
   );
 }
-
-export default App

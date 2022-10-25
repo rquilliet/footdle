@@ -7,6 +7,10 @@ const useWordle = (solution, solutions) => {
   const [history, setHistory] = useState([]) // each guess is a string
   const [isCorrect, setIsCorrect] = useState(false)
   const [usedKeys, setUsedKeys] = useState({}) // {a:'green', b:'yellow', c:'grey'}
+  
+  const [isNotEnoughLetters, setisNotEnoughLetters] = useState(false)
+  const [isWordAlreadyTried, setisWordAlreadyTried] = useState(false)
+  const [isWordNotAPlayer, setisWordNotAPlayer] = useState(false)
 
     
   // format a guess into an array of letter objects 
@@ -88,28 +92,36 @@ const useWordle = (solution, solutions) => {
         console.log('you used all your guesses!')
         return
       }
+
       // do not allow duplicate words
       if (history.includes(currentGuess)) {
+        setisWordAlreadyTried(true)
         console.log('you already tried that word.')
         return
+      } else {
+        setisWordAlreadyTried(false)
       }
+
       // check word is X chars
-        if (currentGuess.length !== solution.length){
-            console.log('guess must be x chars long')
-            return
-        }
+      if (currentGuess.length !== solution.length){
+        console.log('guess must be x chars long')
+        setisNotEnoughLetters(true)
+        return
+      } else {
+        setisNotEnoughLetters(false)
+      }
 
      // word must be in players list
-        if (!solutions.map(sol => sol.toLowerCase()).includes(currentGuess.toLowerCase())){
+      if (!solutions.map(sol => sol.toLowerCase()).includes(currentGuess.toLowerCase())){
+        setisWordNotAPlayer(true)
+        console.log('guess is not a player name')
+        return
+      } else {
+        setisWordNotAPlayer(false)
+      }
 
-            console.log('guess is not a player name')
-            return
-        }
-
-        const formatted = formatGuess()
-        addNewGuess(formatted)
-            
-
+      const formatted = formatGuess()
+      addNewGuess(formatted)
     }
 
 
@@ -129,7 +141,7 @@ const useWordle = (solution, solutions) => {
     }
     }
 
-    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyup}
+    return {turn, currentGuess, guesses, isCorrect, usedKeys, isNotEnoughLetters, isWordAlreadyTried, isWordNotAPlayer, handleKeyup}
 }
 
 export default useWordle
