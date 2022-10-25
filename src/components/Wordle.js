@@ -8,7 +8,7 @@ import Keypad from './Keypad'
 import Modal from './Modal'
 
 const ALERTS = {
-    "isNotEnoughLetters": "Plus de lettres !",
+    "isNotEnoughLetters": "Pas assez de lettres !",
     "isWordAlreadyTried": "Déjà essayé",
     "isWordNotAPlayer": "Pas un joueur !",
 }
